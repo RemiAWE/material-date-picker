@@ -35,10 +35,11 @@ app.directive('mbDatepicker', ['$filter', ($filter)->
     inputName: '@'
     arrows: '=?'
     calendarHeader: '=?'
+    isRequired: '@ngRequired'
   }
   template: '
             <div id="dateSelectors" class="date-selectors"  outside-click="hidePicker()">
-                    <input name="{{ inputName }}" type="text" class="mb-input-field"  ng-click="showPicker()"  class="form-control"  ng-model="date">
+                    <input name="{{ inputName }}" type="text" class="mb-input-field"  ng-click="showPicker()"  class="form-control"  ng-model="date" ng-required="isRequired">
                     <div class="mb-datepicker" ng-show="isVisible">
                         <table>
                             <caption>
