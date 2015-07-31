@@ -4,18 +4,17 @@
   /**
     * By Mo Binni
    */
-  var app, contains;
+  var app;
 
   app = angular.module('materialDatePicker', []);
 
-  contains = function(container, contained) {
-    var node;
-    node = contained.parentNode;
-    while (node !== null && node !== container) {
-      node = node.parentNode;
+  app.filter('capitalize', [
+    function() {
+      return function(input) {
+        return input.charAt(0).toUpperCase() + input.substr(1).toLowerCase();
+      };
     }
-    return node !== null;
-  };
+  ]);
 
   app.directive("outsideClick", [
     '$document', '$parse', function($document, $parse) {
@@ -24,7 +23,9 @@
           var onDocumentClick, scopeExpression;
           scopeExpression = $attributes.outsideClick;
           onDocumentClick = function(event) {
-            if (!contains($element[0], event.target)) {
+            var isChild;
+            isChild = $element.find(event.target.tagName).length > 0;
+            if (!isChild) {
               $scope.$apply(scopeExpression);
             }
           };
@@ -38,7 +39,7 @@
   ]);
 
   app.directive('mbDatepicker', [
-    function() {
+    '$filter', function($filter) {
       return {
         scope: {
           elementId: '@',
@@ -48,16 +49,14 @@
           maxDate: '@',
           inputClass: '@',
           inputName: '@',
-          placeholder: '@',
           arrows: '=?',
           calendarHeader: '=?'
         },
-        template: '<div id="dateSelectors" class="date-selectors"  outside-click="hidePicker()"> <input name="{{ inputName }}" type="text" class="mb-input-field"  ng-click="showPicker()"  class="form-control"  ng-model="date" placeholder="{{ placeholder }}"> <div class="mb-datepicker" ng-show="isVisible"> <table> <caption> <div class="header-year-wrapper"> <span style="display: inline-block; float: left; padding-left:20px; cursor: pointer" class="noselect" ng-click="previousYear(currentDate)"><img style="height: 10px;" ng-src="{{ arrows.year.left }}"/></span> <span class="header-year noselect" ng-class="noselect">{{ year }}</span> <span style="display: inline-block; float: right; padding-right:20px; cursor: pointer" class="noselect" ng-click="nextYear(currentDate)"><img style="height: 10px;" ng-src="{{ arrows.year.right }}"/></span> </div> <div class="header-nav-wrapper"> <span class="header-item noselect" style="float: left; cursor:pointer" ng-click="previousMonth(currentDate)"><img style="height: 10px;" ng-src="{{ arrows.month.left }}"/></span> <span class="header-month noselect">{{ month }}</span> <span class="header-item header-right noselect" style="float: right; cursor:pointer" ng-click="nextMonth(currentDate)"> <img style="height: 10px;" ng-src="{{ arrows.month.right }}"/></span> </div> </caption> <tbody> <tr> <td class="day-head">{{ calendarHeader.monday }}</td> <td class="day-head">{{ calendarHeader.tuesday }}</td> <td class="day-head">{{ calendarHeader.wednesday }}</td> <td class="day-head">{{ calendarHeader.thursday }}</td> <td class="day-head">{{ calendarHeader.friday }}</td> <td class="day-head">{{ calendarHeader.saturday }}</td> <td class="day-head">{{ calendarHeader.sunday }}</td> </tr> <tr class="days" ng-repeat="week in weeks"> <td ng-click="selectDate(day)" class="noselect" ng-class="day.class" ng-repeat="day in week">{{ day.value.format(\'DD\') }}</td> </tr> </tbody> </table> </div> </div>',
+        template: '<div id="dateSelectors" class="date-selectors"  outside-click="hidePicker()"> <input name="{{ inputName }}" type="text" class="mb-input-field"  ng-click="showPicker()"  class="form-control"  ng-model="date" placeholder="Pick a date"> <div class="mb-datepicker" ng-show="isVisible"> <table> <caption> <div class="header-year-wrapper"> <span style="display: inline-block; float: left; padding-left:20px; cursor: pointer" class="noselect" ng-click="previousYear(currentDate)"><img style="height: 10px;" ng-src="{{ arrows.year.left }}"/></span> <span class="header-year noselect" ng-class="noselect">{{ year }}</span> <span style="display: inline-block; float: right; padding-right:20px; cursor: pointer" class="noselect" ng-click="nextYear(currentDate)"><img style="height: 10px;" ng-src="{{ arrows.year.right }}"/></span> </div> <div class="header-nav-wrapper"> <span class="header-item noselect" style="float: left; cursor:pointer" ng-click="previousMonth(currentDate)"><img style="height: 10px;" ng-src="{{ arrows.month.left }}"/></span> <span class="header-month noselect">{{ month | capitalize }}</span> <span class="header-item header-right noselect" style="float: right; cursor:pointer" ng-click="nextMonth(currentDate)"> <img style="height: 10px;" ng-src="{{ arrows.month.right }}"/></span> </div> </caption> <tbody> <tr> <td class="day-head">{{ calendarHeader.monday }}</td> <td class="day-head">{{ calendarHeader.tuesday }}</td> <td class="day-head">{{ calendarHeader.wednesday }}</td> <td class="day-head">{{ calendarHeader.thursday }}</td> <td class="day-head">{{ calendarHeader.friday }}</td> <td class="day-head">{{ calendarHeader.saturday }}</td> <td class="day-head">{{ calendarHeader.sunday }}</td> </tr> <tr class="days" ng-repeat="week in weeks"> <td ng-click="selectDate(day)" class="noselect" ng-class="day.class" ng-repeat="day in week">{{ day.value.format(\'DD\') }}</td> </tr> </tbody> </table> </div> </div>',
         restrict: 'E',
         transclude: true,
         link: function(scope, element, attrs) {
           var getWeeks, init, selectors, today;
-          console.log(scope.calendarHeader);
           selectors = document.querySelector('#dateSelectors');
           today = moment();
           scope.month = '';
@@ -76,13 +75,13 @@
           }
           if (!scope.calendarHeader) {
             scope.calendarHeader = {
-              monday: 'Mon',
-              tuesday: 'Tue',
-              wednesday: 'Wed',
-              thursday: 'Thu',
-              friday: 'Fri',
-              saturday: 'Sat',
-              sunday: 'Sun'
+              monday: $filter('date')(new Date(moment().isoWeekday(1)), 'EEE'),
+              tuesday: $filter('date')(new Date(moment().isoWeekday(2)), 'EEE'),
+              wednesday: $filter('date')(new Date(moment().isoWeekday(3)), 'EEE'),
+              thursday: $filter('date')(new Date(moment().isoWeekday(4)), 'EEE'),
+              friday: $filter('date')(new Date(moment().isoWeekday(5)), 'EEE'),
+              saturday: $filter('date')(new Date(moment().isoWeekday(6)), 'EEE'),
+              sunday: $filter('date')(new Date(moment().isoWeekday(7)), 'EEE')
             };
           }
           if (!scope.arrows) {
@@ -175,7 +174,7 @@
             scope.currentDate = first_day;
             scope.weeks = [];
             scope.weeks = getWeeks(last_day.diff(first_day, 'days'), first_day, next_month.add(3, 'months').month());
-            return scope.month = next_month.format('MMMM');
+            return scope.month = $filter('date')(new Date(next_month), 'MMM');
           };
           scope.previousMonth = function(date) {
             var first_day, last_day, last_month;
@@ -189,7 +188,7 @@
             scope.currentDate = first_day;
             scope.weeks = [];
             scope.weeks = getWeeks(last_day.diff(first_day, 'days'), first_day, last_month.add(1, 'months').month());
-            return scope.month = last_month.format('MMMM');
+            return scope.month = $filter('date')(new Date(last_month), 'MMM');
           };
           scope.nextYear = function(date) {
             var first_day, last_day, next_month;
@@ -203,7 +202,7 @@
             scope.currentDate = first_day;
             scope.weeks = [];
             scope.weeks = getWeeks(last_day.diff(first_day, 'days'), first_day, next_month.add(2, 'months').month());
-            return scope.month = next_month.format('MMMM');
+            return scope.month = $filter('date')(new Date(next_month), 'MMM');
           };
           scope.previousYear = function(date) {
             var first_day, last_day, last_month;
@@ -217,7 +216,7 @@
             scope.currentDate = first_day;
             scope.weeks = [];
             scope.weeks = getWeeks(last_day.diff(first_day, 'days'), first_day, last_month.add(2, 'months').month());
-            return scope.month = last_month.format('MMMM');
+            return scope.month = $filter('date')(new Date(last_month), 'MMM');
           };
           scope.selectDate = function(day) {
             if (day.isEnabled) {
@@ -235,12 +234,12 @@
           init = function() {
             var days, endDate, firstMonday;
             firstMonday = moment(moment().date(today.month())).startOf('isoweek');
-            if (firstMonday.date() === 1) {
+            if (firstMonday.format('DD') !== '01') {
               firstMonday.subtract(1, 'weeks');
             }
             days = moment(moment().date(today.month())).daysInMonth();
             endDate = moment().add(1, 'months').date(0);
-            scope.month = endDate.format('MMMM');
+            scope.month = $filter('date')(new Date(endDate), 'MMM');
             if (endDate.day() !== 7) {
               endDate = endDate.add(7 - endDate.day(), 'days');
             }
