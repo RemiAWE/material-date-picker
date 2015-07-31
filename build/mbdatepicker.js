@@ -58,6 +58,7 @@
         transclude: true,
         link: function(scope, element, attrs) {
           var getWeeks, init, selectors, today;
+          console.log(scope.isRequired);
           selectors = document.querySelector('#dateSelectors');
           today = moment();
           scope.month = '';
