@@ -44,14 +44,19 @@ app.directive('mbDatepicker', ['$filter', ($filter)->
                         <table>
                             <caption>
                               <div class="header-year-wrapper">
-                                  <span style="display: inline-block; float: left; padding-left:20px; cursor: pointer" class="noselect" ng-click="previousYear(currentDate)"><img style="height: 10px;" ng-src="{{ arrows.year.left }}"/></span>
-                                  <span class="header-year noselect" ng-class="noselect">{{ year }}</span>
-                                  <span style="display: inline-block; float: right; padding-right:20px; cursor: pointer" class="noselect" ng-click="nextYear(currentDate)"><img style="height: 10px;" ng-src="{{ arrows.year.right }}"/></span>
-                              </div>
-                              <div class="header-nav-wrapper">
-                                  <span class="header-item noselect" style="float: left; cursor:pointer" ng-click="previousMonth(currentDate)"><img style="height: 10px;" ng-src="{{ arrows.month.left }}"/></span>
-                                  <span class="header-month noselect">{{ month | capitalize }}</span>
-                                  <span class="header-item header-right noselect" style="float: right; cursor:pointer" ng-click="nextMonth(currentDate)"> <img style="height: 10px;" ng-src="{{ arrows.month.right }}"/></span>
+                                  <span style="display: inline-block; float: left; padding-left:20px; cursor: pointer" class="noselect" ng-click="previousMonth(currentDate)"><img style="height: 10px;" ng-src="{{ arrows.year.left }}"/></span>
+                                  <div class="header-year noselect" ng-class="noselect">
+                                      <span class="mb-custom-select-title" ng-click="showMonthsList = true">{{ month }}.</span>
+                                      <div class="mb-custom-select" ng-show="showMonthsList">
+                                          <span ng-repeat="monthName in monthsList" ng-click="selectMonth(monthName)">{{ monthName }}</span>
+                                      </div>
+
+                                    <span class="mb-custom-select-title" ng-click="showYearsList = true">{{ year }}</span>
+                                    <div class="mb-custom-select" ng-show="showYearsList">
+                                      <span ng-repeat="yearNumber in yearsList" ng-click="selectMonth(yearNumber)">{{ yearNumber }}</span>
+                                    </div>
+                                  </div>
+                                  <span style="display: inline-block; float: right; padding-right:20px; cursor: pointer" class="noselect" ng-click="nextMonth(currentDate)"><img style="height: 10px;" ng-src="{{ arrows.year.right }}"/></span>
                               </div>
                             </caption>
                             <tbody>
@@ -79,8 +84,10 @@ app.directive('mbDatepicker', ['$filter', ($filter)->
 # Vars
     selectors = document.querySelector('#dateSelectors')
     today = moment()
-    scope.month = '';
-    scope.year = today.year();
+    scope.month = ''
+    scope.year = today.year()
+    scope.monthsList = moment.months()
+    scope.yearsList = (year for year in [2005..moment().year()])
 
     # Casual definition
     if scope.inputClass then selectors.className = selectors.className + " " + scope.inputClass
@@ -147,6 +154,8 @@ app.directive('mbDatepicker', ['$filter', ($filter)->
       if(last_day.day() != 7)
         last_day = last_day.add(7 - last_day.day(), 'days')
       first_day = moment(next_month).add(2, 'months').startOf('isoweek')
+      console.log('last_day', last_day)
+      console.log('first_day', first_day)
       scope.currentDate = first_day
       scope.weeks = []
       scope.weeks = getWeeks(
@@ -164,6 +173,8 @@ app.directive('mbDatepicker', ['$filter', ($filter)->
       if(last_day.day() != 7)
         last_day = last_day.add(7 - last_day.day(), 'days')
       first_day = moment(last_month).startOf('isoweek')
+      console.log('last_day', last_day)
+      console.log('first_day', first_day)
       scope.currentDate = first_day
       scope.weeks = []
       scope.weeks = getWeeks(
@@ -172,6 +183,29 @@ app.directive('mbDatepicker', ['$filter', ($filter)->
         last_month.add(1, 'months').month()
       )
       scope.month = $filter('date')( new Date(last_month), 'MMM' )
+
+    # Logic to select a month
+    scope.selectMonth = (monthName) ->
+      scope.showMonthsList = scope.showYearsList = false # Ferme les menus
+
+      # OK
+      last_month = moment(scope.currentDate).month(monthName).date(0)
+      last_day   = moment(last_month).add(2, 'months').date(0)
+      first_day  = moment(last_month).startOf('isoweek')
+      scope.year  = last_day.year()
+      if(last_day.day() != 7)
+        last_day = last_day.add(7 - last_day.day(), 'days')
+      console.log('last_day', last_day)
+      console.log('first_day', first_day)
+      scope.currentDate = first_day;
+      scope.weeks = []
+      scope.weeks = getWeeks(
+        last_day.diff(first_day, 'days'),
+        first_day,
+        last_month.add(1, 'months').month()
+      )
+      scope.month = $filter('date')( new Date(last_month), 'MMM' )
+      # OK
 
     # Logic to get the next year
     scope.nextYear = (date) ->
@@ -206,6 +240,23 @@ app.directive('mbDatepicker', ['$filter', ($filter)->
         last_month.add(2, 'months').month()
       )
       scope.month = $filter('date')( new Date(last_month), 'MMM' )
+
+    # Logic to select a year
+    scope.selectYear = (yearName) ->
+      scope.showMonthsList = false # Ferme le menu
+      month_selected = moment(scope.currentDate).month(monthName) # Mois selectionné + même jour
+      last_day  = month_selected.date(month_selected.daysInMonth()) # Dernier jour du mois
+      scope.year = month_selected.year()
+      if(last_day.day() != 7) # Check le jour de la semaine du dernier jour du mois selectionné
+        last_day = last_day.add(7 - last_day.day(), 'days')
+      first_day = month_selected.startOf('isoweek');
+      scope.currentDate = first_day;
+      scope.weeks = getWeeks(
+        month_selected.daysInMonth(),
+        first_day,
+        month_selected.month()
+      )
+      scope.month = $filter('date')( new Date(month_selected), 'MMM' )
 
     # Logic to hide the view if a date is selected
     scope.selectDate = (day) ->

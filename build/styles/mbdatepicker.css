@@ -103,3 +103,31 @@ caption {
   border-radius: 0;
   border-bottom: 1px solid red;
 }
+
+.mb-custom-select-title {
+    cursor: pointer;
+}
+/*.mb-custom-select-title:hover {
+    border: 1px solid white;
+}*/
+.mb-custom-select {
+    position: absolute;
+    box-shadow: 0 12px 36px 16px rgba(0, 0, 0, 0.24);
+    background-color: #15A5DB;
+    font-size: 16px;
+    cursor: pointer;
+}
+.mb-custom-select span {
+    display: block;
+    text-align: left;
+    padding: 4px 12px 4px 12px;
+    font-size: 16px;
+    cursor: pointer;
+}
+.mb-custom-select span::first-letter {
+    text-transform: uppercase;
+}
+.mb-custom-select span:hover {
+    background-color: white;
+    color: #15A5DB;
+}

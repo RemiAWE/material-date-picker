@@ -103,3 +103,12 @@ caption {
   border-radius: 0;
   border-bottom: 1px solid red;
 }
+
+.mb-custom-select {
+    width: 200px;
+    border: 1px solid black;
+    background-color: #15A5DB;
+}
+.mb-custom-select span {
+    display: block;
+}
