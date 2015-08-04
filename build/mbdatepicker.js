@@ -52,7 +52,7 @@ app.directive('mbDatepicker', [
         calendarHeader: '=?',
         isRequired: '@ngRequired'
       },
-      template: '<div id="dateSelectors" class="date-selectors"  outside-click="hidePicker()"> <input name="{{ inputName }}" type="text" class="mb-input-field"  ng-click="showPicker()"  class="form-control"  ng-model="date" ng-required="isRequired"> <div class="mb-datepicker" ng-show="isVisible"> <table> <caption> <div class="header-year-wrapper"> <span style="display: inline-block; float: left; padding-left:20px; cursor: pointer" class="noselect" ng-click="previousMonth(currentDate)"><img style="height: 10px;" ng-src="{{ arrows.year.left }}"/></span> <div class="header-year noselect" ng-class="noselect"> <span class="mb-custom-select-title" ng-click="showMonthsList = true">{{ month }}.</span> <div class="mb-custom-select" ng-show="showMonthsList"> <span ng-repeat="monthName in monthsList" ng-click="selectMonth(monthName)">{{ monthName }}</span> </div> <span class="mb-custom-select-title" ng-click="showYearsList = true">{{ year }}</span> <div class="mb-custom-select" ng-show="showYearsList"> <span ng-repeat="yearNumber in yearsList" ng-click="selectMonth(yearNumber)">{{ yearNumber }}</span> </div> </div> <span style="display: inline-block; float: right; padding-right:20px; cursor: pointer" class="noselect" ng-click="nextMonth(currentDate)"><img style="height: 10px;" ng-src="{{ arrows.year.right }}"/></span> </div> </caption> <tbody> <tr> <td class="day-head">{{ calendarHeader.monday }}</td> <td class="day-head">{{ calendarHeader.tuesday }}</td> <td class="day-head">{{ calendarHeader.wednesday }}</td> <td class="day-head">{{ calendarHeader.thursday }}</td> <td class="day-head">{{ calendarHeader.friday }}</td> <td class="day-head">{{ calendarHeader.saturday }}</td> <td class="day-head">{{ calendarHeader.sunday }}</td> </tr> <tr class="days" ng-repeat="week in weeks"> <td ng-click="selectDate(day)" class="noselect" ng-class="day.class" ng-repeat="day in week">{{ day.value.format(\'DD\') }}</td> </tr> </tbody> </table> </div> </div>',
+      template: '<div id="dateSelectors" class="date-selectors"  outside-click="hidePicker()"> <input name="{{ inputName }}" type="text" class="mb-input-field"  ng-click="showPicker()"  class="form-control"  ng-model="date" ng-required="isRequired"> <div class="mb-datepicker" ng-show="isVisible"> <table> <caption> <div class="header-year-wrapper"> <span style="display: inline-block; float: left; padding-left:20px; cursor: pointer" class="noselect" ng-click="previousMonth(currentDate)"><img style="height: 10px;" ng-src="{{ arrows.year.left }}"/></span> <div class="header-year noselect" ng-class="noselect"> <span class="mb-custom-select-title" ng-click="showMonthsList = true; showYearsList = false">{{ month }}.</span> <div class="mb-custom-select" ng-show="showMonthsList"> <span ng-repeat="monthName in monthsList" ng-click="selectMonth(monthName)">{{ monthName }}</span> </div> <span class="mb-custom-select-title" ng-click="showYearsList = true; showMonthsList = false">{{ year }}</span> <div class="mb-custom-select" ng-show="showYearsList"> <span ng-repeat="yearNumber in yearsList" ng-click="selectYear(yearNumber)">{{ yearNumber }}</span> </div> </div> <span style="display: inline-block; float: right; padding-right:20px; cursor: pointer" class="noselect" ng-click="nextMonth(currentDate)"><img style="height: 10px;" ng-src="{{ arrows.year.right }}"/></span> </div> </caption> <tbody> <tr> <td class="day-head">{{ calendarHeader.monday }}</td> <td class="day-head">{{ calendarHeader.tuesday }}</td> <td class="day-head">{{ calendarHeader.wednesday }}</td> <td class="day-head">{{ calendarHeader.thursday }}</td> <td class="day-head">{{ calendarHeader.friday }}</td> <td class="day-head">{{ calendarHeader.saturday }}</td> <td class="day-head">{{ calendarHeader.sunday }}</td> </tr> <tr class="days" ng-repeat="week in weeks"> <td ng-click="selectDate(day)" class="noselect" ng-class="day.class" ng-repeat="day in week">{{ day.value.format(\'DD\') }}</td> </tr> </tbody> </table> </div> </div>',
       restrict: 'E',
       transclude: true,
       link: function(scope, element, attrs) {
@@ -106,10 +106,15 @@ app.directive('mbDatepicker', [
           };
         }
         getWeeks = function(monthLength, startDay, month) {
-          var chunk_size, day, j, monthDays, newDate, ref, start, weeks;
+          var chunk_size, day, initialStartDay, j, monthDays, newDate, ref, start, weeks;
           monthDays = [];
+          initialStartDay = moment(startDay);
+          if (initialStartDay.date() === 25) {
+            initialStartDay.date(32);
+            monthLength -= 7;
+          }
           for (day = j = 0, ref = monthLength; 0 <= ref ? j <= ref : j >= ref; day = 0 <= ref ? ++j : --j) {
-            start = moment(startDay);
+            start = moment(initialStartDay);
             newDate = start.add(day, 'd');
             if (scope.minDate && moment(newDate, scope.dateFormat) <= moment(scope.minDate, scope.dateFormat)) {
               monthDays.push({
@@ -176,12 +181,10 @@ app.directive('mbDatepicker', [
           next_month = moment(date).date(0);
           last_day = moment(next_month).add(4, 'months').date(0);
           scope.year = last_day.year();
-          if (last_day.day() !== 7) {
+          if (0 < last_day.day() && last_day.day() !== 7) {
             last_day = last_day.add(7 - last_day.day(), 'days');
           }
           first_day = moment(next_month).add(2, 'months').startOf('isoweek');
-          console.log('last_day', last_day);
-          console.log('first_day', first_day);
           scope.currentDate = first_day;
           scope.weeks = [];
           scope.weeks = getWeeks(last_day.diff(first_day, 'days'), first_day, next_month.add(3, 'months').month());
@@ -192,12 +195,10 @@ app.directive('mbDatepicker', [
           last_month = moment(date).date(0);
           last_day = moment(last_month).add(2, 'months').date(0);
           scope.year = last_day.year();
-          if (last_day.day() !== 7) {
+          if (0 < last_day.day() && last_day.day() !== 7) {
             last_day = last_day.add(7 - last_day.day(), 'days');
           }
           first_day = moment(last_month).startOf('isoweek');
-          console.log('last_day', last_day);
-          console.log('first_day', first_day);
           scope.currentDate = first_day;
           scope.weeks = [];
           scope.weeks = getWeeks(last_day.diff(first_day, 'days'), first_day, last_month.add(1, 'months').month());
@@ -210,11 +211,9 @@ app.directive('mbDatepicker', [
           last_day = moment(last_month).add(2, 'months').date(0);
           first_day = moment(last_month).startOf('isoweek');
           scope.year = last_day.year();
-          if (last_day.day() !== 7) {
+          if (0 < last_day.day() && last_day.day() !== 7) {
             last_day = last_day.add(7 - last_day.day(), 'days');
           }
-          console.log('last_day', last_day);
-          console.log('first_day', first_day);
           scope.currentDate = first_day;
           scope.weeks = [];
           scope.weeks = getWeeks(last_day.diff(first_day, 'days'), first_day, last_month.add(1, 'months').month());
@@ -225,7 +224,7 @@ app.directive('mbDatepicker', [
           next_month = moment(date).date(0);
           last_day = moment(next_month).add(1, 'year').add(3, 'months').date(0);
           scope.year = last_day.year();
-          if (last_day.day() !== 7) {
+          if (0 < last_day.day() && last_day.day() !== 7) {
             last_day = last_day.add(7 - last_day.day(), 'days');
           }
           first_day = moment(next_month).add(1, 'years').add(1, 'months').startOf('isoweek');
@@ -239,7 +238,7 @@ app.directive('mbDatepicker', [
           last_month = moment(date).date(0);
           last_day = moment(last_month).subtract(1, 'years').add(3, 'months').date(0);
           scope.year = last_day.year();
-          if (last_day.day() !== 7) {
+          if (0 < last_day.day() && last_day.day() !== 7) {
             last_day = last_day.add(7 - last_day.day(), 'days');
           }
           first_day = moment(last_month).subtract(1, 'years').add(1, 'months').startOf('isoweek');
@@ -249,18 +248,19 @@ app.directive('mbDatepicker', [
           return scope.month = $filter('date')(new Date(last_month), 'MMM');
         };
         scope.selectYear = function(yearName) {
-          var first_day, last_day, month_selected;
-          scope.showMonthsList = false;
-          month_selected = moment(scope.currentDate).month(monthName);
-          last_day = month_selected.date(month_selected.daysInMonth());
-          scope.year = month_selected.year();
-          if (last_day.day() !== 7) {
+          var first_day, last_day, last_month;
+          scope.showMonthsList = scope.showYearsList = false;
+          last_month = moment(scope.currentDate).year(yearName).date(moment(scope.currentDate).year(yearName).daysInMonth());
+          last_day = moment(last_month).add(2, 'months').date(0);
+          first_day = moment(last_month).startOf('isoweek');
+          scope.year = last_day.year();
+          if (0 < last_day.day() && last_day.day() < 7) {
             last_day = last_day.add(7 - last_day.day(), 'days');
           }
-          first_day = month_selected.startOf('isoweek');
           scope.currentDate = first_day;
-          scope.weeks = getWeeks(month_selected.daysInMonth(), first_day, month_selected.month());
-          return scope.month = $filter('date')(new Date(month_selected), 'MMM');
+          scope.weeks = [];
+          scope.weeks = getWeeks(last_day.diff(first_day, 'days'), first_day, last_month.add(1, 'months').month());
+          return scope.month = $filter('date')(new Date(last_month), 'MMM');
         };
         scope.selectDate = function(day) {
           if (day.isEnabled) {
