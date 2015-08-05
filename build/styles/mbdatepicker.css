@@ -1,45 +1,128 @@
 /* This was breaking out bootstrap! */
 mb-datepicker .form-control {
-  width: 135px!important;
+  width: 135px !important;
 }
+
 .mb-datepicker {
-  width: 250px;
-  position: absolute;
   margin-top: 10px;
-  background-color: #f5f5f5;
+  width: 280px;
+  position: absolute;
+  background-color: white;
   z-index: 3000;
   -webkit-box-shadow: 1px 1px 7px 0px rgba(37, 53, 50, 0.37);
-  -moz-box-shadow:    1px 1px 7px 0px rgba(37, 53, 50, 0.37);
-  box-shadow:         1px 1px 7px 0px rgba(37, 53, 50, 0.37);
+  -moz-box-shadow: 1px 1px 7px 0px rgba(37, 53, 50, 0.37);
+  box-shadow: 1px 1px 7px 0px rgba(37, 53, 50, 0.37);
 }
-.mb-datepicker  table {
-  width: 250px;
-  table-layout:fixed;
+
+.mb-datepicker .mb-table-header-bckgrnd {
+  height: 65px;
 }
-.mb-datepicker table thead tr td{
-  padding-bottom: 10px;
+
+.mb-datepicker table {
+  margin-top: -65px;
+  padding-right: 14px;
+  padding-left: 14px;
+  padding-bottom: 14px;
+  table-layout: fixed;
+  border-collapse: collapse;
+  display: block;
 }
+
+.mb-datepicker table caption {
+  height: 65px;
+  display: block;
+}
+
+.mb-datepicker table caption .header-year-wrapper {
+  height: 65px;
+  line-height: 65px;
+  color: white;
+  font-size: 1.2em;
+}
+
+.mb-datepicker table tbody {
+  padding-top: 14px;
+  width: 252px;
+  display: block;
+}
+
+.mb-datepicker table tbody tr {
+  height: 36px;
+  width: 252px;
+}
+
+.mb-datepicker table tbody tr.days-head {
+  height: 44px;
+}
+
+.mb-datepicker table tbody tr.days-head .day-head {
+  padding: 0;
+  padding-bottom: 14px;
+  border-bottom: 1px solid #d8d8d8;
+}
+
+.mb-datepicker table tbody tr.days .day-item:hover {
+  background-color: #0093de;
+  color: #f5f5f5 !important;
+}
+
+.mb-datepicker table tbody tr td {
+  width: 36px;
+  text-align: center;
+  color: #5b5b5b;
+  background-color: white;
+  font-size: 12px;
+  display: inline-block;
+}
+
+.mb-datepicker table tbody tr td.day-item {
+  padding: 0;
+  height: 36px;
+  line-height: 36px;
+  cursor: pointer;
+  border-radius: 18px;
+  color: #8e8e8e;
+}
+
+.mb-datepicker table tbody tr td.day-item.day {
+  color: #5b5b5b;
+}
+
+.mb-datepicker table tbody tr td.day-item.today {
+  background-color: #b3b3b3;
+  color: white;
+}
+
+.mb-datepicker table tbody tr td.day-item.day-selected {
+  background-color: #78d1ff;
+  color: white;
+}
+
 .header-item {
   padding-left: 20px;
   padding-right: 20px;
 }
+
 .header-month {
   text-align: center;
   display: inline-block;
 }
+
 .header-right {
   text-align: right;
 }
+
 caption {
-  padding: 0!important;
+  padding: 0 !important;
 }
-.header-year-wrapper {
-  padding-top: 10px;
-  padding-bottom: 10px;
-  color: white;
-  font-size: 1.2em;
-  background-color: #15A5DB;
+
+.header-year {
+  padding-top: 1px;
+  padding-bottom: 0 !important;
+  text-align: center;
+  display: inline-block;
 }
+
 .header-nav-wrapper {
   padding-top: 5px;
   padding-bottom: 5px;
@@ -47,51 +130,16 @@ caption {
   font-size: 1.2em;
   background-color: #E8E8E8;
 }
-.header-year {
-  padding-top: 1px;
-  padding-bottom: 0!important;
-  text-align: center;
-  display: inline-block;
-}
-.mb-datepicker table tbody tr td{
-  text-align: center;
-  padding: 10px;
-  cursor: pointer;
-  color: #626262;
-}
-.mb-datepicker table tbody tr.days .day-item:hover{
-  background-color: #15A5DB;
-  color: #f5f5f5!important;
-}
-.mb-datepicker table tbody tr td.day-head{
-  background-color: #f5f5f5;
-  cursor: default;
-  border-bottom: 1px solid #ECECEC;
-  font-weight: 600;
-}
-.mb-datepicker table tbody tr td.day-head:hover{
-  background-color: #f5f5f5;
-  color: #626262;
-}
-.today {
-  background: #61C7EC!important;
-  color: white!important;
-}
-.other {
-}
+
 .weekend {
-  color:#a3a3a3!important;
+  color: #a3a3a3 !important;
 }
-.day {
-  color:#000!important
-}
+
 .disabled {
-  background:#ECECEC!important;
-  color:#a3a3a3!important;
+  background: #ECECEC !important;
+  color: #a3a3a3 !important;
 }
-.disabled:hover {
-  background:#ECECEC!important;
-}
+
 .noselect {
   -webkit-touch-callout: none;
   -webkit-user-select: none;
@@ -99,35 +147,47 @@ caption {
   -moz-user-select: none;
   user-select: none;
 }
+
 .mb-input-field {
   border-radius: 0;
   border-bottom: 1px solid red;
 }
 
 .mb-custom-select-title {
-    cursor: pointer;
+  cursor: pointer;
+  padding: 3px 9px 4px 9px;
+  border: 1px solid;
+  border-radius: 3px;
+  transition: border-color 0.1s ease-in;
 }
-/*.mb-custom-select-title:hover {
-    border: 1px solid white;
-}*/
-.mb-custom-select {
-    position: absolute;
-    box-shadow: 0 12px 36px 16px rgba(0, 0, 0, 0.24);
-    background-color: #15A5DB;
-    font-size: 16px;
-    cursor: pointer;
+
+.mb-custom-select-title:hover {
+  border-color: white !important;
 }
-.mb-custom-select span {
-    display: block;
-    text-align: left;
-    padding: 4px 12px 4px 12px;
-    font-size: 16px;
-    cursor: pointer;
+
+.mb-custom-select-box {
+  display: inline-block;
 }
-.mb-custom-select span::first-letter {
-    text-transform: uppercase;
+
+.mb-custom-select-box .mb-custom-select {
+  position: absolute;
+  cursor: pointer;
 }
-.mb-custom-select span:hover {
-    background-color: white;
-    color: #15A5DB;
+
+.mb-custom-select-box .mb-custom-select span {
+  padding: 4px 12px 4px 12px;
+  display: block;
+  text-align: left;
+  font-size: 1em;
+  line-height: 1em;
+  cursor: pointer;
+}
+
+.mb-custom-select-box .mb-custom-select span::first-letter {
+  text-transform: uppercase;
+}
+
+.mb-custom-select-box .mb-custom-select span:hover {
+  background-color: white;
+  color: #15A5DB;
 }

@@ -2,11 +2,13 @@
 <html>
 <head lang="en">
 	<meta charset="UTF-8">
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" type="text/css" href="../build/styles/mbdatepicker.css"/>
 	<title>Example app</title>
 </head>
 <body ng-app="exampleApp">
 <style type="text/css">
+	* { font-family: 'Open Sans', sans-serif; }
 	.testClass > input {
 		border-bottom: 3px solid #1A4987;
 		border-left: transparent;
@@ -23,6 +25,7 @@
 	               date="date"
 	               date-format="YYYY-MM-DD"
 	               ng-required="{{ true === true }}"
+	               config="{color1: '#0093de'}"
 	               ></mb-datepicker>
 </div>
 </body>

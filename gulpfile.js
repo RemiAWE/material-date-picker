@@ -3,25 +3,34 @@
 var gulp = require('gulp');
 var $    = require('gulp-load-plugins')();
 
-var swallowError = function(error) {
-
-    //If you want details of the error in the console
-    console.log(error.toString());
-
-    this.emit('end');
-}
+var plumberErrorHandler = {
+    errorHandler: function (err) {
+        console.log(err);
+        this.emit('end');
+    }
+};
 
 gulp.task('coffee', function(){
     return gulp.src(__dirname+'/app/scripts/**/*.coffee')
-        .pipe($.plumber())
+        .pipe($.plumber(plumberErrorHandler))
         .pipe($.coffee({bare: true}))
         .pipe(gulp.dest(__dirname+'/build/'));
 });
 
+gulp.task('sass', function(){
+    return gulp.src(__dirname+'/app/styles/**/*.scss')
+        .pipe($.plumber(plumberErrorHandler))
+        .pipe($.sass({ outputStyle: 'expanded' }))
+        .pipe(gulp.dest(__dirname+'/build/styles/'));
+})
+
 /**
- * Watch JS
+ * Watch
  */
-gulp.task('watchJs', function(){
+gulp.task('watch', function(){
+    $.watch(__dirname+'/app/styles/**/*.scss', $.batch(function(events, done){
+        gulp.start('sass', done);
+    }));
     $.watch(__dirname+'/app/scripts/**/*.coffee', $.batch(function(events, done){
         //console.log('Modification du fichier CoffeeScript : '+event.path);
         gulp.start('coffee', done);
