@@ -280,7 +280,6 @@ app.directive('mbDatepicker', ['$filter', ($filter)->
       return
 
     scope.isDaySelected = (day) ->
-        console.log(day.value.isSame(moment(scope.date, scope.dateFormat), 'day'))
         return day.value.isSame(moment(scope.date, scope.dateFormat), 'day')
 
     init = ->
