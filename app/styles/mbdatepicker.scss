@@ -143,6 +143,8 @@ caption {
     padding: 3px 9px 4px 9px;
     border: 1px solid;
     border-radius: 3px;
+    line-height: 1.2em;
+    display: inline-block;
     transition: border-color .10s ease-in;
     &:hover {
         border-color: white!important;
@@ -169,4 +171,8 @@ caption {
             }
         }
     }
+}
+
+.mb-month-name::first-letter {
+    text-transform: uppercase;
 }

@@ -49,7 +49,7 @@ app.directive('mbDatepicker', ['$filter', ($filter)->
                                     <span style="display: inline-block; float: left; cursor: pointer" class="noselect" ng-click="previousMonth(currentDate)"><img style="height: 10px;" ng-src="{{ arrows.year.left }}"/></span>
                                     <div class="header-year noselect" ng-class="noselect">
                                         <div class="mb-custom-select-box">
-                                            <span class="mb-custom-select-title" ng-click="showMonthsList = true; showYearsList = false" ng-style="{ \'border-color\': params.color1 }">{{ month }}</span>
+                                            <span class="mb-custom-select-title mb-month-name" ng-click="showMonthsList = true; showYearsList = false" ng-style="{ \'border-color\': params.color1 }">{{ month }}</span>
                                             <div class="mb-custom-select" ng-show="showMonthsList" ng-style="{ \'background-color\': params.color1 }">
                                                 <span ng-repeat="monthName in monthsList" ng-click="selectMonth(monthName)">{{ monthName }}</span>
                                             </div>

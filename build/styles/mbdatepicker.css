@@ -162,6 +162,8 @@ caption {
   padding: 3px 9px 4px 9px;
   border: 1px solid;
   border-radius: 3px;
+  line-height: 1.2em;
+  display: inline-block;
   transition: border-color 0.1s ease-in;
 }
 
@@ -194,4 +196,8 @@ caption {
 .mb-custom-select-box .mb-custom-select span:hover {
   background-color: white;
   color: #15A5DB;
+}
+
+.mb-month-name::first-letter {
+  text-transform: uppercase;
 }
