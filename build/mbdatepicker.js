@@ -281,7 +281,8 @@ app.directive('mbDatepicker', [
           scope.isVisible = scope.showMonthsList = scope.showYearsList = false;
         };
         scope.isDaySelected = function(day) {
-          return day.value.isSame(moment(scope.date), 'day');
+          console.log(day.value.isSame(moment(scope.date, scope.dateFormat), 'day'));
+          return day.value.isSame(moment(scope.date, scope.dateFormat), 'day');
         };
         init = function() {
           var days, endDate, firstMonday;
