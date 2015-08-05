@@ -61,7 +61,9 @@ app.directive('mbDatepicker', [
         scope.params = {
           color1: '#15a5db'
         };
-        angular.extend(scope.params, scope.userConfig);
+        scope.$watch('userConfig', function(val) {
+          return angular.extend(scope.params, val);
+        });
         selectors = document.querySelector('#dateSelectors');
         today = moment();
         scope.month = '';

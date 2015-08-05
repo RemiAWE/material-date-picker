@@ -88,7 +88,9 @@ app.directive('mbDatepicker', ['$filter', ($filter)->
     scope.params =
       color1: '#15a5db'
 
-    angular.extend(scope.params, scope.userConfig)
+    scope.$watch('userConfig', (val) ->
+      angular.extend(scope.params, val)
+    )
 
     # Vars
     selectors = document.querySelector('#dateSelectors')
