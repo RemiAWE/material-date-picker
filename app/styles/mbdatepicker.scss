@@ -46,7 +46,6 @@ mb-datepicker .form-control {
                 width: ($width - (2 * $table-padding));
                 &.days-head {
                     height: ($width - (2 * $table-padding))/7 + 8;
-
                     .day-head {
                         padding: 0;
                         padding-bottom: $table-padding;
@@ -124,7 +123,7 @@ caption {
 .other {
 }
 .weekend {
-  color:#a3a3a3!important;
+
 }
 .noselect {
   -webkit-touch-callout: none;
@@ -144,6 +143,7 @@ caption {
     border: 1px solid;
     border-radius: 3px;
     line-height: 1.2em;
+    font-size: 1.2em;
     display: inline-block;
     transition: border-color .10s ease-in;
     &:hover {
@@ -154,6 +154,9 @@ caption {
     display: inline-block;
     .mb-custom-select {
         position: absolute;
+        margin-top: -16px;
+        padding-bottom: 10px;
+        padding-right: 5px;
         cursor: pointer;
         span {
             padding: 4px 12px 4px 12px;

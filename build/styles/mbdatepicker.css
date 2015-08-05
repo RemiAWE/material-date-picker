@@ -140,10 +140,6 @@ caption {
   background-color: #E8E8E8;
 }
 
-.weekend {
-  color: #a3a3a3 !important;
-}
-
 .noselect {
   -webkit-touch-callout: none;
   -webkit-user-select: none;
@@ -163,6 +159,7 @@ caption {
   border: 1px solid;
   border-radius: 3px;
   line-height: 1.2em;
+  font-size: 1.2em;
   display: inline-block;
   transition: border-color 0.1s ease-in;
 }
@@ -177,6 +174,9 @@ caption {
 
 .mb-custom-select-box .mb-custom-select {
   position: absolute;
+  margin-top: -16px;
+  padding-bottom: 10px;
+  padding-right: 5px;
   cursor: pointer;
 }
 
