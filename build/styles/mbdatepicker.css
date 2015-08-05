@@ -92,8 +92,8 @@ mb-datepicker .form-control {
 
 .mb-datepicker table tbody tr td.day-item.today,
 .mb-datepicker table tbody tr td.disabled.today {
-  background-color: #b3b3b3;
-  color: white;
+  color: #1b1b1b;
+  font-weight: 700;
 }
 
 .mb-datepicker table tbody tr td.day-item.day-selected,

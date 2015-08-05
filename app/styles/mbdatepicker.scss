@@ -75,8 +75,8 @@ mb-datepicker .form-control {
                             color: $font-color;
                         }
                         &.today {
-                            background-color: lighten(black, 70%);
-                            color: white;
+                            color: #1b1b1b;
+                            font-weight: 700;
                         }
                         &.day-selected {
                             background-color: lighten(#0093de, 30%);

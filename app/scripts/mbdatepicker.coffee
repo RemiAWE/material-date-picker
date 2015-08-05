@@ -30,7 +30,7 @@ app.directive('mbDatepicker', ['$filter', ($filter)->
     date: '=',
     dateFormat: '@'
     minDate: '@'
-    maxDate: '@'
+    maxDate: '='
     inputClass: '@'
     inputName: '@'
     arrows: '=?'

@@ -5,9 +5,11 @@ var app = angular.module('exampleApp', [
     'materialDatePicker'
 ]);
 
-app.controller('MainCtrl', function ($scope) {
+app.controller('MainCtrl', function ($scope, $timeout) {
     $scope.config = {color1: '#0093de'};
+
     $scope.dateMax = moment().add(1, 'days').format('DD/MM/YYYY');
+
     $scope.arrows = {
         year: {
             left: 'images/white_arrow_left.svg',

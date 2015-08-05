@@ -45,7 +45,7 @@ app.directive('mbDatepicker', [
         date: '=',
         dateFormat: '@',
         minDate: '@',
-        maxDate: '@',
+        maxDate: '=',
         inputClass: '@',
         inputName: '@',
         arrows: '=?',
