@@ -64,7 +64,8 @@ mb-datepicker .form-control {
                     background-color: white;
                     font-size: 12px;
                     display: inline-block;
-                    &.day-item {
+                    &.day-item,
+                    &.disabled {
                         padding: 0;
                         height: ($width - (2 * $table-padding))/7;
                         line-height: ($width - (2 * $table-padding))/7;
@@ -82,6 +83,10 @@ mb-datepicker .form-control {
                             background-color: lighten(#0093de, 30%);
                             color: white;
                         }
+                    }
+                    &.disabled {
+                        cursor: default;
+                        color: lighten($font-color, 50%);
                     }
                 }
             }
@@ -119,10 +124,6 @@ caption {
 .other {
 }
 .weekend {
-  color:#a3a3a3!important;
-}
-.disabled {
-  background:#ECECEC!important;
   color:#a3a3a3!important;
 }
 .noselect {

@@ -75,7 +75,8 @@ mb-datepicker .form-control {
   display: inline-block;
 }
 
-.mb-datepicker table tbody tr td.day-item {
+.mb-datepicker table tbody tr td.day-item,
+.mb-datepicker table tbody tr td.disabled {
   padding: 0;
   height: 36px;
   line-height: 36px;
@@ -84,18 +85,26 @@ mb-datepicker .form-control {
   color: #8e8e8e;
 }
 
-.mb-datepicker table tbody tr td.day-item.day {
+.mb-datepicker table tbody tr td.day-item.day,
+.mb-datepicker table tbody tr td.disabled.day {
   color: #5b5b5b;
 }
 
-.mb-datepicker table tbody tr td.day-item.today {
+.mb-datepicker table tbody tr td.day-item.today,
+.mb-datepicker table tbody tr td.disabled.today {
   background-color: #b3b3b3;
   color: white;
 }
 
-.mb-datepicker table tbody tr td.day-item.day-selected {
+.mb-datepicker table tbody tr td.day-item.day-selected,
+.mb-datepicker table tbody tr td.disabled.day-selected {
   background-color: #78d1ff;
   color: white;
+}
+
+.mb-datepicker table tbody tr td.disabled {
+  cursor: default;
+  color: #dbdbdb;
 }
 
 .header-item {
@@ -132,11 +141,6 @@ caption {
 }
 
 .weekend {
-  color: #a3a3a3 !important;
-}
-
-.disabled {
-  background: #ECECEC !important;
   color: #a3a3a3 !important;
 }
 
