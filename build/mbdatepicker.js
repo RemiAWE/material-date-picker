@@ -51,7 +51,7 @@ app.directive('mbDatepicker', [
         arrows: '=?',
         calendarHeader: '=?',
         isRequired: '@ngRequired',
-        config: '='
+        userConfig: '=config'
       },
       template: '<div id="dateSelectors" class="date-selectors"  outside-click="hidePicker()"> <input name="{{ inputName }}" type="text" class="mb-input-field"  ng-click="showPicker()"  class="form-control"  ng-model="date" ng-required="isRequired"> <div class="mb-datepicker" ng-show="isVisible"> <div class="mb-table-header-bckgrnd" ng-style="{\'background-color\': params.color1 }"></div> <table> <caption> <div class="header-year-wrapper"> <span style="display: inline-block; float: left; cursor: pointer" class="noselect" ng-click="previousMonth(currentDate)"><img style="height: 10px;" ng-src="{{ arrows.year.left }}"/></span> <div class="header-year noselect" ng-class="noselect"> <div class="mb-custom-select-box"> <span class="mb-custom-select-title mb-month-name" ng-click="showMonthsList = true; showYearsList = false" ng-style="{ \'border-color\': params.color1 }">{{ month }}</span> <div class="mb-custom-select" ng-show="showMonthsList" ng-style="{ \'background-color\': params.color1 }"> <span ng-repeat="monthName in monthsList" ng-click="selectMonth(monthName)">{{ monthName }}</span> </div> </div><div class="mb-custom-select-box"> <span class="mb-custom-select-title" ng-click="showYearsList = true; showMonthsList = false" ng-style="{ \'border-color\': params.color1 }">{{ year }}</span> <div class="mb-custom-select" ng-show="showYearsList"  ng-style="{ \'background-color\': params.color1 }"> <span ng-repeat="yearNumber in yearsList" ng-click="selectYear(yearNumber)">{{ yearNumber }}</span> </div> </div> </div> <span style="display: inline-block; float: right; cursor: pointer" class="noselect" ng-click="nextMonth(currentDate)"><img style="height: 10px;" ng-src="{{ arrows.year.right }}"/></span> </div> </caption> <tbody> <tr class="days-head"> <td class="day-head">{{ calendarHeader.monday }}</td> <td class="day-head">{{ calendarHeader.tuesday }}</td> <td class="day-head">{{ calendarHeader.wednesday }}</td> <td class="day-head">{{ calendarHeader.thursday }}</td> <td class="day-head">{{ calendarHeader.friday }}</td> <td class="day-head">{{ calendarHeader.saturday }}</td> <td class="day-head">{{ calendarHeader.sunday }}</td> </tr> <tr class="days" ng-repeat="week in weeks"> <td ng-click="selectDate(day)" class="noselect" ng-class="[day.class, {\'day-selected\': isDaySelected(day)}]" ng-repeat="day in week">{{ day.value.format(\'DD\') }}</td> </tr> </tbody> </table> </div> </div>',
       restrict: 'E',
@@ -61,7 +61,7 @@ app.directive('mbDatepicker', [
         scope.params = {
           color1: '#15a5db'
         };
-        angular.extend(scope.params, scope.config);
+        angular.extend(scope.params, scope.userConfig);
         selectors = document.querySelector('#dateSelectors');
         today = moment();
         scope.month = '';

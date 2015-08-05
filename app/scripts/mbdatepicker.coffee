@@ -36,7 +36,7 @@ app.directive('mbDatepicker', ['$filter', ($filter)->
     arrows: '=?'
     calendarHeader: '=?'
     isRequired: '@ngRequired'
-    config: '='
+    userConfig: '=config'
   }
   template: '
             <div id="dateSelectors" class="date-selectors"  outside-click="hidePicker()">
@@ -88,7 +88,7 @@ app.directive('mbDatepicker', ['$filter', ($filter)->
     scope.params =
       color1: '#15a5db'
 
-    angular.extend(scope.params, scope.config)
+    angular.extend(scope.params, scope.userConfig)
 
     # Vars
     selectors = document.querySelector('#dateSelectors')

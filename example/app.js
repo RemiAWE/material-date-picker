@@ -6,6 +6,7 @@ var app = angular.module('exampleApp', [
 ]);
 
 app.controller('MainCtrl', function ($scope) {
+    $scope.config = {color1: '#0093de'};
     $scope.dateMax = moment().add(1, 'days').format('DD/MM/YYYY');
     $scope.arrows = {
         year: {
