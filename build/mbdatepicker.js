@@ -75,7 +75,6 @@ app.directive('mbDatepicker', [
           }
           return results;
         })();
-        console.log(scope.maxDate);
         if (scope.inputClass) {
           selectors.className = selectors.className + " " + scope.inputClass;
         }
@@ -99,10 +98,6 @@ app.directive('mbDatepicker', [
             sunday: $filter('date')(new Date(moment().isoWeekday(7)), 'EEE')
           };
         }
-        console.log(scope.maxDate);
-        scope.$watch('maxDate', function(val) {
-          return console.log(val);
-        });
         if (!scope.arrows) {
           scope.arrows = {
             year: {

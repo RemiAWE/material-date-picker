@@ -97,7 +97,7 @@ app.directive('mbDatepicker', ['$filter', ($filter)->
     scope.year = today.year()
     scope.monthsList = moment.months()
     scope.yearsList = (year for year in [2005..moment().year()])
-    console.log(scope.maxDate)
+
     # Casual definition
     if scope.inputClass then selectors.className = selectors.className + " " + scope.inputClass
     if !scope.dateFormat then scope.dateFormat = "YYYY-MM-DD"
@@ -112,12 +112,6 @@ app.directive('mbDatepicker', ['$filter', ($filter)->
       saturday: $filter('date')( new Date(moment().isoWeekday(6)), 'EEE'),
       sunday: $filter('date')( new Date(moment().isoWeekday(7)), 'EEE'),
     }
-
-    console.log(scope.maxDate)
-
-    scope.$watch('maxDate', (val) ->
-      console.log(val)
-    )
 
     if !scope.arrows then scope.arrows = {
       year: {
