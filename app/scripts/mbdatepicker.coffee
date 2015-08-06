@@ -116,16 +116,8 @@ app.directive('mbDatepicker', ['$filter', ($filter)->
       angular.extend(scope.params, val)
     )
 
-    scope.$watch('dateMin', (val) ->
-        if (val)
-          scope.minDate = moment(val, scope.dateFormat)
-          init()
-    )
-
-    scope.$watch('dateMax', (val) ->
-        if (val)
-          scope.maxDate = moment(val, scope.dateFormat)
-          init()
+    scope.$watchGroup(['dateMin', 'dateMax'], (val) ->
+      init()
     )
 
     if !scope.arrows then scope.arrows = {
@@ -298,7 +290,11 @@ app.directive('mbDatepicker', ['$filter', ($filter)->
         return day.value.isSame(moment(scope.date, scope.dateFormat), 'day')
 
     init = ->
-# First day of month
+
+      if scope.dateMin then scope.minDate = moment(scope.dateMin, scope.dateFormat)
+      if scope.dateMax then scope.maxDate = moment(scope.dateMax, scope.dateFormat)
+
+      # First day of month
       firstMonday = moment(moment().date(today.month())).startOf('isoweek')
       if(firstMonday.format('DD') != '01') then firstMonday.subtract(1, 'weeks')
 
@@ -315,7 +311,7 @@ app.directive('mbDatepicker', ['$filter', ($filter)->
 
       scope.currentDate = firstMonday
       scope.weeks = getWeeks(
-# No. of days in a month from sunday to sunday
+      # No. of days in a month from sunday to sunday
         endDate.diff(firstMonday, 'days'),
         firstMonday,
         today.month()

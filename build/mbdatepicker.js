@@ -94,17 +94,8 @@ app.directive('mbDatepicker', [
         scope.$watch('userConfig', function(val) {
           return angular.extend(scope.params, val);
         });
-        scope.$watch('dateMin', function(val) {
-          if (val) {
-            scope.minDate = moment(val, scope.dateFormat);
-            return init();
-          }
-        });
-        scope.$watch('dateMax', function(val) {
-          if (val) {
-            scope.maxDate = moment(val, scope.dateFormat);
-            return init();
-          }
+        scope.$watchGroup(['dateMin', 'dateMax'], function(val) {
+          return init();
         });
         if (!scope.arrows) {
           scope.arrows = {
@@ -293,6 +284,12 @@ app.directive('mbDatepicker', [
         };
         init = function() {
           var days, endDate, firstMonday;
+          if (scope.dateMin) {
+            scope.minDate = moment(scope.dateMin, scope.dateFormat);
+          }
+          if (scope.dateMax) {
+            scope.maxDate = moment(scope.dateMax, scope.dateFormat);
+          }
           firstMonday = moment(moment().date(today.month())).startOf('isoweek');
           if (firstMonday.format('DD') !== '01') {
             firstMonday.subtract(1, 'weeks');
