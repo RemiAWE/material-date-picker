@@ -12,24 +12,26 @@ app.filter('capitalize', [ ->
 ])
 app.directive("outsideClick", ['$document', '$parse', ($document, $parse) ->
   link: ($scope, $element, $attributes) ->
-    scopeExpression = $attributes.outsideClick
-    onDocumentClick = (event) ->
-      isChild = $element.find(event.target.tagName).length > 0;
-      $scope.$apply scopeExpression  unless isChild
-      return
 
-    $document.on "click", onDocumentClick
-    $element.on "$destroy", ->
-      $document.off "click", onDocumentClick
-      return
-    return
+    closest = (el, fn) ->
+      return el && (
+        if fn(el) then el else closest(el.parentNode, fn)
+      )
+
+    $document.bind('click', (event) ->
+      elem = closest(event.target, (el) ->
+          return el.isSameNode($element[0]);
+      )
+      if(!elem)
+        $scope.$apply($attributes.outsideClick)
+    )
 ])
 app.directive('mbDatepicker', ['$filter', ($filter)->
   scope: {
     elementId: '@',
     date: '=',
     dateFormat: '@'
-    minDate: '@'
+    minDate: '='
     maxDate: '='
     inputClass: '@'
     inputName: '@'

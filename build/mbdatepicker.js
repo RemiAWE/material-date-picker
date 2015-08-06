@@ -19,18 +19,18 @@ app.directive("outsideClick", [
   '$document', '$parse', function($document, $parse) {
     return {
       link: function($scope, $element, $attributes) {
-        var onDocumentClick, scopeExpression;
-        scopeExpression = $attributes.outsideClick;
-        onDocumentClick = function(event) {
-          var isChild;
-          isChild = $element.find(event.target.tagName).length > 0;
-          if (!isChild) {
-            $scope.$apply(scopeExpression);
-          }
+        var closest;
+        closest = function(el, fn) {
+          return el && (fn(el) ? el : closest(el.parentNode, fn));
         };
-        $document.on("click", onDocumentClick);
-        $element.on("$destroy", function() {
-          $document.off("click", onDocumentClick);
+        return $document.bind('click', function(event) {
+          var elem;
+          elem = closest(event.target, function(el) {
+            return el.isSameNode($element[0]);
+          });
+          if (!elem) {
+            return $scope.$apply($attributes.outsideClick);
+          }
         });
       }
     };
@@ -44,7 +44,7 @@ app.directive('mbDatepicker', [
         elementId: '@',
         date: '=',
         dateFormat: '@',
-        minDate: '@',
+        minDate: '=',
         maxDate: '=',
         inputClass: '@',
         inputName: '@',

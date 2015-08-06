@@ -8,6 +8,7 @@ var app = angular.module('exampleApp', [
 app.controller('MainCtrl', function ($scope, $timeout) {
     $scope.config = {color1: '#0093de'};
 
+    $scope.dateMin = moment().year(2005).month(0).date(0).format('DD/MM/YYYY');
     $scope.dateMax = moment().add(1, 'days').format('DD/MM/YYYY');
 
     $scope.arrows = {
