@@ -18,31 +18,38 @@
 </style>
 <div ng-controller="MainCtrl">
 
-	<mb-datepicker element-id='date1'
-	               input-class="testClass"
-	               input-name="testName"
-	               arrows="arrows"
-	               calendar-header="header"
-	               date="date"
-	               date-format="DD/MM/YYYY"
-	               min-date="dateMin"
-	               max-date="dateMax"
-	               ng-required="{{ true === true }}"
-	               config="config"
-	               ></mb-datepicker>
+	<form ng-submit="submitAction()" name="formTest">
 
-	<mb-datepicker element-id='date2'
-	               input-class="testClass"
-	               input-name="testName2"
-	               arrows="arrows"
-	               calendar-header="header"
-	               date="date2"
-	               date-format="DD/MM/YYYY"
-	               min-date="dateMin"
-	               max-date="dateMax"
-	               ng-required="{{ true === true }}"
-	               config="config"
-	               ></mb-datepicker>
+		<mb-datepicker element-id='date1'
+		               input-class="testClass"
+		               input-name="testName"
+		               arrows="arrows"
+		               calendar-header="header"
+		               date="date"
+		               date-format="DD/MM/YYYY"
+		               min-date="dateMin"
+		               max-date="dateMax"
+		               ng-required="{{ true === true }}"
+		               config="config"
+		               ></mb-datepicker>
+
+		<mb-datepicker element-id='date2'
+		               input-class="testClass"
+		               input-name="testName2"
+		               arrows="arrows"
+		               calendar-header="header"
+		               date="date2"
+		               date-format="DD/MM/YYYY"
+		               min-date="dateMin"
+		               max-date="dateMax"
+		               ng-required="{{ true === true }}"
+		               config="config"
+		               ></mb-datepicker>
+
+		<input type="submit" name="name" value="Valider">
+
+	</form>
+
 </div>
 </body>
 <script src="bower_components/angular/angular.js"></script>

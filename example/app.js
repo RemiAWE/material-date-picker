@@ -30,4 +30,8 @@ app.controller('MainCtrl', function ($scope, $timeout) {
         saturday: 'Sat',
         sunday: 'Sun',
     }
+
+    $scope.submitAction = function(){
+        console.log('submit');
+    };
 })
