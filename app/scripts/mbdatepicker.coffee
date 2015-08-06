@@ -31,8 +31,8 @@ app.directive('mbDatepicker', ['$filter', ($filter)->
     elementId: '@',
     date: '=',
     dateFormat: '@'
-    minDate: '='
-    maxDate: '='
+    dateMin: '=minDate'
+    dateMax: '=maxDate'
     inputClass: '@'
     inputName: '@'
     arrows: '=?'
@@ -87,13 +87,6 @@ app.directive('mbDatepicker', ['$filter', ($filter)->
   transclude: true,
   link: (scope, element, attrs) ->
 
-    scope.params =
-      color1: '#15a5db'
-
-    scope.$watch('userConfig', (val) ->
-      angular.extend(scope.params, val)
-    )
-
     # Vars
     selectors = document.querySelector('#dateSelectors')
     today = moment()
@@ -105,8 +98,6 @@ app.directive('mbDatepicker', ['$filter', ($filter)->
     # Casual definition
     if scope.inputClass then selectors.className = selectors.className + " " + scope.inputClass
     if !scope.dateFormat then scope.dateFormat = "YYYY-MM-DD"
-    if scope.minDate then scope.minDate = moment(scope.minDate, scope.dateFormat)
-    if scope.maxDate then scope.maxDate = moment(scope.maxDate, scope.dateFormat)
     if !scope.calendarHeader then scope.calendarHeader = {
       monday: $filter('date')( new Date(moment().isoWeekday(1)), 'EEE'),
       tuesday: $filter('date')( new Date(moment().isoWeekday(2)), 'EEE'),
@@ -116,6 +107,26 @@ app.directive('mbDatepicker', ['$filter', ($filter)->
       saturday: $filter('date')( new Date(moment().isoWeekday(6)), 'EEE'),
       sunday: $filter('date')( new Date(moment().isoWeekday(7)), 'EEE'),
     }
+
+    # Dynamic casual definition
+    scope.params =
+      color1: '#15a5db'
+
+    scope.$watch('userConfig', (val) ->
+      angular.extend(scope.params, val)
+    )
+
+    scope.$watch('dateMin', (val) ->
+        if (val)
+          scope.minDate = moment(val, scope.dateFormat)
+          init()
+    )
+
+    scope.$watch('dateMax', (val) ->
+        if (val)
+          scope.maxDate = moment(val, scope.dateFormat)
+          init()
+    )
 
     if !scope.arrows then scope.arrows = {
       year: {

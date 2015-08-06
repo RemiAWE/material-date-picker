@@ -44,8 +44,8 @@ app.directive('mbDatepicker', [
         elementId: '@',
         date: '=',
         dateFormat: '@',
-        minDate: '=',
-        maxDate: '=',
+        dateMin: '=minDate',
+        dateMax: '=maxDate',
         inputClass: '@',
         inputName: '@',
         arrows: '=?',
@@ -58,12 +58,6 @@ app.directive('mbDatepicker', [
       transclude: true,
       link: function(scope, element, attrs) {
         var getWeeks, init, selectors, today, year;
-        scope.params = {
-          color1: '#15a5db'
-        };
-        scope.$watch('userConfig', function(val) {
-          return angular.extend(scope.params, val);
-        });
         selectors = document.querySelector('#dateSelectors');
         today = moment();
         scope.month = '';
@@ -83,12 +77,6 @@ app.directive('mbDatepicker', [
         if (!scope.dateFormat) {
           scope.dateFormat = "YYYY-MM-DD";
         }
-        if (scope.minDate) {
-          scope.minDate = moment(scope.minDate, scope.dateFormat);
-        }
-        if (scope.maxDate) {
-          scope.maxDate = moment(scope.maxDate, scope.dateFormat);
-        }
         if (!scope.calendarHeader) {
           scope.calendarHeader = {
             monday: $filter('date')(new Date(moment().isoWeekday(1)), 'EEE'),
@@ -100,6 +88,24 @@ app.directive('mbDatepicker', [
             sunday: $filter('date')(new Date(moment().isoWeekday(7)), 'EEE')
           };
         }
+        scope.params = {
+          color1: '#15a5db'
+        };
+        scope.$watch('userConfig', function(val) {
+          return angular.extend(scope.params, val);
+        });
+        scope.$watch('dateMin', function(val) {
+          if (val) {
+            scope.minDate = moment(val, scope.dateFormat);
+            return init();
+          }
+        });
+        scope.$watch('dateMax', function(val) {
+          if (val) {
+            scope.maxDate = moment(val, scope.dateFormat);
+            return init();
+          }
+        });
         if (!scope.arrows) {
           scope.arrows = {
             year: {
