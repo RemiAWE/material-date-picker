@@ -50,14 +50,14 @@ app.directive('mbDatepicker', ['$filter', ($filter)->
                                 <div class="header-year-wrapper">
                                     <span style="display: inline-block; float: left; cursor: pointer" class="noselect" ng-click="previousMonth(currentDate)"><img style="height: 10px;" ng-src="{{ arrows.year.left }}"/></span>
                                     <div class="header-year noselect" ng-class="noselect">
-                                        <div class="mb-custom-select-box">
-                                            <span class="mb-custom-select-title mb-month-name" ng-click="showMonthsList = true; showYearsList = false" ng-style="{ \'border-color\': params.color1 }">{{ month }}</span>
-                                            <div class="mb-custom-select" ng-show="showMonthsList" ng-style="{ \'background-color\': params.color1 }">
+                                        <div class="mb-custom-select-box" outside-click="showMonthsList = false">
+                                            <span class="mb-custom-select-title mb-month-name" ng-click="showMonthsList = true; showYearsList = false" ng-style="{ \'border-color\': params.color1 }" ng-class="{selected: showMonthsList }">{{ month }}</span>
+                                            <div class="mb-custom-select" ng-show="showMonthsList">
                                                 <span ng-repeat="monthName in monthsList" ng-click="selectMonth(monthName)">{{ monthName }}</span>
                                             </div>
-                                        </div><div class="mb-custom-select-box">
-                                            <span class="mb-custom-select-title" ng-click="showYearsList = true; showMonthsList = false" ng-style="{ \'border-color\': params.color1 }">{{ year }}</span>
-                                            <div class="mb-custom-select" ng-show="showYearsList"  ng-style="{ \'background-color\': params.color1 }">
+                                        </div><div class="mb-custom-select-box" outside-click="showYearsList = false">
+                                            <span class="mb-custom-select-title" ng-click="showYearsList = true; showMonthsList = false" ng-style="{ \'border-color\': params.color1}" ng-class="{selected: showYearsList }">{{ year }}</span>
+                                            <div class="mb-custom-select" ng-show="showYearsList">
                                                 <span ng-repeat="yearNumber in yearsList" ng-click="selectYear(yearNumber)">{{ yearNumber }}</span>
                                             </div>
                                         </div>

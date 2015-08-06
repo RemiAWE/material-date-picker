@@ -98,8 +98,8 @@ mb-datepicker .form-control {
 
 .mb-datepicker table tbody tr td.day-item.day-selected,
 .mb-datepicker table tbody tr td.disabled.day-selected {
-  background-color: #78d1ff;
-  color: white;
+  background-color: #0093de;
+  color: #f5f5f5 !important;
 }
 
 .mb-datepicker table tbody tr td.disabled {
@@ -154,43 +154,65 @@ caption {
 }
 
 .mb-custom-select-title {
-  cursor: pointer;
   padding: 3px 9px 4px 9px;
   border: 1px solid;
   border-radius: 3px;
   line-height: 1.2em;
   font-size: 1.2em;
   display: inline-block;
+  cursor: pointer;
   transition: border-color 0.1s ease-in;
 }
 
-.mb-custom-select-title:hover {
+.mb-custom-select-title.selected, .mb-custom-select-title:hover {
   border-color: white !important;
 }
 
 .mb-custom-select-box {
   display: inline-block;
+  position: relative;
+}
+
+.mb-custom-select-box:first-of-type .mb-custom-select-title,
+.mb-custom-select-box:first-of-type .mb-custom-select {
+  min-width: 80px;
 }
 
 .mb-custom-select-box .mb-custom-select {
   position: absolute;
   margin-top: -16px;
-  padding-bottom: 10px;
-  padding-right: 5px;
+  border-radius: 2px;
   cursor: pointer;
+  width: 100%;
+  background-color: #f0f0f0;
 }
 
 .mb-custom-select-box .mb-custom-select span {
-  padding: 4px 12px 4px 12px;
+  padding-top: 6px;
+  padding-bottom: 5px;
   display: block;
-  text-align: left;
-  font-size: 1em;
+  text-align: center;
+  font-size: 13px;
   line-height: 1em;
   cursor: pointer;
+  color: #737373;
+  font-weight: 400;
 }
 
 .mb-custom-select-box .mb-custom-select span::first-letter {
   text-transform: uppercase;
+}
+
+.mb-custom-select-box .mb-custom-select span:first-of-type {
+  padding-top: 10px;
+  border-top-right-radius: 2px;
+  border-top-left-radius: 2px;
+}
+
+.mb-custom-select-box .mb-custom-select span:last-of-type {
+  padding-bottom: 10px;
+  border-bottom-right-radius: 2px;
+  border-bottom-left-radius: 2px;
 }
 
 .mb-custom-select-box .mb-custom-select span:hover {
